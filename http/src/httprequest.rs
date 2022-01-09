@@ -95,8 +95,8 @@ fn process_header_line(s: &str) -> (String, String) {
     let mut value = String::from("");
 
     if let Some((k, v)) = headers_items {
-        key = k.to_string();
-        value = v.to_string();
+        key = k.trim().to_string();
+        value = v.trim().to_string();
     }
 
     (key, value)
@@ -121,15 +121,15 @@ mod test {
     fn test_read_http() {
         let content = String::from("GET /sd HTTP/1.1\r\nUser-Agent: PostmanRuntime/7.28.4\r\nAccept: */*\r\nPostman-Token: 529edce1-9249-4a63-96b4-127cb0f57a83\r\nHost: 159.75.96.101:7879\r\nAccept-Encoding: gzip, deflate, br\r\nConnection: keep-alive\r\n\r\n");
         let headers_expected = HashMap::from([
-            ("Host".into(), " 159.75.96.101:7879".into()),
-            ("User-Agent".into(), " PostmanRuntime/7.28.4".into()),
+            ("Host".into(), "159.75.96.101:7879".into()),
+            ("User-Agent".into(), "PostmanRuntime/7.28.4".into()),
             (
                 "Postman-Token".into(),
-                " 529edce1-9249-4a63-96b4-127cb0f57a83".into(),
+                "529edce1-9249-4a63-96b4-127cb0f57a83".into(),
             ),
-            ("Accept-Encoding".into(), " gzip, deflate, br".into()),
-            ("Connection".into(), " keep-alive".into()),
-            ("Accept".into(), " */*".into()),
+            ("Accept-Encoding".into(), "gzip, deflate, br".into()),
+            ("Connection".into(), "keep-alive".into()),
+            ("Accept".into(), "*/*".into()),
         ]);
 
         let req: HttpRequest = content.into();
